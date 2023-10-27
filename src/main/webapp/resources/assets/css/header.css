@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.header-bar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.navigation-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+.navigation-links a:hover {
+    text-decoration: underline;
+}

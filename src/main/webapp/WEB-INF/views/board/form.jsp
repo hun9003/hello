@@ -17,15 +17,21 @@
 <div id="main">
     <c:import url="/header"/>
     <div id="form">
-        <h2>회원가입 폼</h2>
-        <form action="<c:url value="/account/join"/>" method="post">
-            <label for="memberId">ID:</label><br>
-            <input type="text" id="memberId" name="memberId" required><br>
-            <label for="memberPassword">PW:</label><br>
-            <input type="password" id="memberPassword" name="memberPassword" required><br><br>
-            <input type="submit" value="회원가입">
+        <h2>피드작성</h2>
+        <form action="/board/write" method="post">
+            <textarea id="content" name="content" cols="40" rows="6" required></textarea>
+            <p>
+                <input type="submit" value="업로드">
+            </p>
         </form>
     </div>
 </div>
+
+<c:if test="${sessionScope.member == null}">
+    <script>
+        alert("로그인이 필요한 페이지 입니다.");
+        location.href = '<c:url value="/account/login"/>';
+    </script>
+</c:if>
 </body>
 </html>

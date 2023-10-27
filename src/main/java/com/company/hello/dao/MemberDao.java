@@ -1,5 +1,6 @@
 package com.company.hello.dao;
 
+import com.company.hello.vo.MemberFollowVo;
 import com.company.hello.vo.MemberVo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,7 @@ import java.util.List;
 public class MemberDao {
 
     private static final String FILE_PATH = "classpath:data/member.json";
+    private static final String FILE_PATH_FOLLOW = "classpath:data/member_follow.json";
 
     private final ObjectMapper objectMapper;
 
@@ -25,7 +27,6 @@ public class MemberDao {
     }
 
     public List<MemberVo> findAll() throws IOException {
-
         File file = ResourceUtils.getFile(FILE_PATH);
         if (!file.exists()) {
             return null;
@@ -33,10 +34,30 @@ public class MemberDao {
         return objectMapper.readValue(file, new TypeReference<>() {});
     }
 
-    public MemberVo findMember(String memberId) throws IOException {
-        List<MemberVo> list = findAll(); // foreach
+    public List<MemberFollowVo> findAllFollowList() throws IOException {
+        File file = ResourceUtils.getFile(FILE_PATH_FOLLOW);
+        if (!file.exists()) {
+            return null;
+        }
+        return objectMapper.readValue(file, new TypeReference<>() {});
+    }
+
+    public List<MemberFollowVo> findFollowByMember(String memberId) throws IOException {
+        List<MemberFollowVo> list = findAllFollowList();
+        List<MemberFollowVo> result = new ArrayList<>();
+
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getMemberId().equals(memberId)) return list.get(i);
+            if(list.get(i).getMemberId().equals(memberId)) result.add(list.get(i));
+        }
+
+        return result;
+    }
+
+    public MemberFollowVo findMemberFollow(MemberFollowVo request) throws IOException {
+        List<MemberFollowVo> list = findAllFollowList(); // foreach
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getMemberId().equals(request.getMemberId())
+                    && list.get(i).getFollowId().equals(request.getFollowId())) return list.get(i);
         }
 
 //        for (MemberVo memberVo : list) {
@@ -45,18 +66,21 @@ public class MemberDao {
         return null;
     }
 
-    public void insertMember(MemberVo request) throws IOException {
-        List<MemberVo> list = findAll();
-        list.add(request);
-        objectMapper.writeValue(ResourceUtils.getFile(FILE_PATH), list);
+    public void deleteFollow(MemberFollowVo request) throws IOException {
+        List<MemberFollowVo> list = findAllFollowList(); // foreach
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getMemberId().equals(request.getMemberId())
+                    && list.get(i).getFollowId().equals(request.getFollowId())) {
+                list.remove(i);
+                break;
+            }
+        }
+        objectMapper.writeValue(ResourceUtils.getFile(FILE_PATH_FOLLOW), list);
     }
 
-    public MemberVo login(MemberVo memberVo) throws IOException {
-        List<MemberVo> list = findAll(); // foreach
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getMemberId().equals(memberVo.getMemberId())
-            && list.get(i).getMemberPassword().equals(memberVo.getMemberPassword())) return list.get(i);
-        }
-        return null;
+    public void insertFollow(MemberFollowVo request) throws IOException {
+        List<MemberFollowVo> list = findAllFollowList(); // foreach
+        list.add(request);
+        objectMapper.writeValue(ResourceUtils.getFile(FILE_PATH_FOLLOW), list);
     }
 }

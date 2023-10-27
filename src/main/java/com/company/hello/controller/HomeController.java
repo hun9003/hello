@@ -10,4 +10,9 @@ public class HomeController {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/header")
+    public String header() {
+        return "/common/header";
+    }
 }

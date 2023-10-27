@@ -10,22 +10,27 @@
 <html>
 <head>
     <title>로그인</title>
+    <link rel="stylesheet" href="<c:url value="../../resources/assets/css/main.css"/> ">
+    <link rel="stylesheet" href="<c:url value="../../resources/assets/css/header.css"/> ">
 </head>
 <body>
-<h2>로그인 폼</h2>
-<form action="/account/login" method="post">
-    <label for="memberId">ID:</label><br>
-    <input type="text" id="memberId" name="memberId" required><br>
-    <label for="memberPassword">PW:</label><br>
-    <input type="password" id="memberPassword" name="memberPassword" required><br><br>
-    <input type="submit" value="로그인">
-</form>
-<a href="/account/join">회원가입</a>
-<c:if test="${param.status != null and param.status == 'fail'}">
-    <script>
-        alert("아이디 혹은 비밀번호가 틀립니다.");
-    </script>
-</c:if>
-
+<div id="main">
+    <c:import url="/header"/>
+    <div id="form">
+        <h2>로그인 폼</h2>
+        <form action="/account/login" method="post">
+            <label for="memberId">ID:</label><br>
+            <input type="text" id="memberId" name="memberId" required><br>
+            <label for="memberPassword">PW:</label><br>
+            <input type="password" id="memberPassword" name="memberPassword" required><br><br>
+            <input type="submit" value="로그인">
+        </form>
+    </div>
+    <c:if test="${param.status != null and param.status == 'fail'}">
+        <script>
+            alert("아이디 혹은 비밀번호가 틀립니다.");
+        </script>
+    </c:if>
+</div>
 </body>
 </html>
