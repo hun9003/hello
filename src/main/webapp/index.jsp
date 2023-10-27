@@ -6,7 +6,7 @@
     <title>Hello World</title>
 </head>
 <body>
-Hello World!
+Hello World2!
 </h1>
 <br/>
 <c:choose>
